@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: ai_safety_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - incident_data:/app/data
+    environment:
+      - ROCKET_ADDRESS=0.0.0.0
+      - ROCKET_PORT=8000
+    restart: unless-stopped
+
+volumes:
+  incident_data:
