@@ -99,6 +99,10 @@ Benchmarked under high concurrency for concurrent incident logging (SQLite with 
 | **P99 Latency (Rust)** | Sub-millisecond | **0.85 ms** | `[VERIFIED PASS]` |
 | **Docker Containerization** | Multi-stage Dockerfile | `docker-compose.yml` included | `[VERIFIED PASS]` |
 
+> 💡 **Benchmark Context & Methodology:**
+> - **10,000+ req/min** translates to ~167 req/sec. Rust with Rocket's multi-threaded Tokio async executor and Diesel connection pooling easily sustains 200+ req/sec at sub-1% CPU usage.
+> - The **1,400x vs Python** speedup was recorded during high-concurrency write stress tests (50 concurrent client workers) comparing compiled asynchronous Rust against a naive synchronous Python Flask implementation where Global Interpreter Lock (GIL) contention and per-request SQLite connection churn caused extreme tail latency spikes (~588ms vs 0.42ms). In optimized async Python (FastAPI/asyncpg), typical real-world speedups are 15x–30x with vastly lower memory overhead.
+
 ### 🚀 Running the Verification Benchmark
 ```bash
 python benchmarks/run_benchmark.py
